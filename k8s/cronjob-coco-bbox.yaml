@@ -1,0 +1,34 @@
+# Volitelně: jen bot coco-bbox-detector podle cronu (bez Flask UI / scheduleru pro ostatní).
+# Vyžaduje stejný Secret jako deployment.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: coco-bbox-detector
+  namespace: databots
+spec:
+  # Upravte podle potřeby, např. každých 6 hodin
+  schedule: "0 */6 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: bot
+              image: ghcr.io/OWNER/REPO:main
+              imagePullPolicy: Always
+              args: ["coco-bbox-detector"]
+              envFrom:
+                - secretRef:
+                    name: herbarium-databots-secret
+              resources:
+                requests:
+                  memory: "2Gi"
+                  cpu: "500m"
+                limits:
+                  memory: "8Gi"
+                  cpu: "4"

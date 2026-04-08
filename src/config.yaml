@@ -18,3 +18,8 @@ bots:
 #    interval: "*/1 * * * *"
   cetaf_metadata:
     interval: "*/1 * * * *"
+  coco-bbox-detector:
+    weights_path: "/app/weights/model.pt"
+    conf_threshold: 0.25
+    device: "cpu"
+    output_coco_path: ""

@@ -1,0 +1,17 @@
+# kubectl apply -k k8s/
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: databots
+
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+  # - cronjob-coco-bbox.yaml   # odkomentujte, pokud chcete CronJob místo / vedle Deployment
+
+# Upravte na svůj GitHub org/repo a tag z GHCR (např. main, sha, v1.0.0)
+images:
+  - name: ghcr.io/OWNER/REPO
+    newName: ghcr.io/biodiversity-cz/coco-bbox-detector
+    newTag: main

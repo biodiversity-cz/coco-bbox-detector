@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: herbarium-databots
+  namespace: databots
+  labels:
+    app: herbarium-databots
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: herbarium-databots
+  template:
+    metadata:
+      labels:
+        app: herbarium-databots
+    spec:
+      # Odkomentujte u privátního ghcr.io image:
+      # imagePullSecrets:
+      #   - name: ghcr-pull-secret
+      containers:
+        - name: app
+          # Nahraďte v kustomization.yaml nebo před apply:
+          image: ghcr.io/OWNER/REPO:main
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 5000
+          envFrom:
+            - secretRef:
+                name: herbarium-databots-secret
+          # Volitelný výstup COCO JSON na prázdný svazek:
+          # env:
+          #   - name: OUTPUT_COCO_PATH
+          #     value: "/data/out/batch.coco.json"
+          # volumeMounts:
+          #   - name: coco-out
+          #     mountPath: /data/out
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "500m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
+          readinessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 60
+            periodSeconds: 30
+      # volumes:
+      #   - name: coco-out
+      #     emptyDir: {}
