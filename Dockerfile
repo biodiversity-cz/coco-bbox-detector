@@ -1,4 +1,5 @@
-FROM python:3.14@sha256:17bc9f1d032a760546802cc4e406401eb5fe99dbcb4602c91628e73672fa749c
+# Musí odpovídat wheelům pro torch/ultralytics (viz poetry.lock). 3.14 zatím často bez cp314 torch.
+FROM python:3.13-slim-bookworm
 
 RUN pip install --no-cache-dir poetry
 RUN useradd --uid 1000  --shell /bin/bash appuser

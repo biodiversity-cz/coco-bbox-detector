@@ -3,7 +3,7 @@ Databots for herbarium repository. Use Databot name as argument to run it immedi
 
 ## local run
 ```shell
-poetry env use python3.14
+poetry env use python3.13
 poetry install
 
 poetry run python src/test.py database_connection_tester

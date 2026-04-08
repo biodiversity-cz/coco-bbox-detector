@@ -12,7 +12,7 @@ poetry install
 Verzi Pythonu sjednoťte s projektem (viz `pyproject.toml`), např.:
 
 ```bash
-poetry env use python3.14
+poetry env use python3.13
 ```
 
 Údaje o DB a S3 upravte v `src/config.yaml`, případně přepište proměnnými prostředí ve tvaru `DB_*` a `S3_*` (viz [`src/config/config.py`](../src/config/config.py)).
